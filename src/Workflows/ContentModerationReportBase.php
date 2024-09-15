@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\magpjm\Workflows;
+namespace Drupal\qa\Workflows;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -11,14 +11,13 @@ abstract class ContentModerationReportBase implements ContainerInjectionInterfac
 
   protected $stateStorage;
 
-  protected $transStorage;
+  protected $workflowStorage;
 
   protected function buildGrid() {
     $grid = [];
     $stateIds = array_keys($this->getStates());
-    $stateCells = array_map(function ($stateId) {
-      return [];
-    }, array_flip($stateIds));
+
+    $stateCells = array_fill(0, count($stateIds), []);
 
     foreach ($stateIds as $stateId) {
       $grid[$stateId] = $stateCells;
@@ -50,6 +49,7 @@ abstract class ContentModerationReportBase implements ContainerInjectionInterfac
 
   protected function getStates() {
     $fullStates = $this->stateStorage->loadMultiple();
+    print_R($fullStates);
     $simpleStates = array_map(function ($entity) {
       return $entity->label();
     }, $fullStates);
@@ -58,7 +58,7 @@ abstract class ContentModerationReportBase implements ContainerInjectionInterfac
   }
 
   protected function getTrans() {
-    $fullTrans = $this->transStorage->loadMultiple();
+    $fullTrans = $this->workflowStorage->loadMultiple();
     $simpleTrans = array_map(function ($trans) {
       return [
         'label' => $trans->label(),

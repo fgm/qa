@@ -3,15 +3,15 @@
 namespace Drupal\qa\Workflows;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
+use Drupal\Core\Entity\ContentEntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\qa\Workflows\ContentModerationReportBase;
 use Grafizzi\Graph\Attribute;
 use Grafizzi\Graph\Edge;
 use Grafizzi\Graph\Graph;
 use Grafizzi\Graph\Node;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Pimple\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -26,10 +26,10 @@ class ContentModerationGraph extends ContentModerationReportBase implements Cont
    */
   protected $pimple;
 
-  public function __construct(EntityStorageInterface $stateStorage, EntityStorageInterface $transStorage, Container $pimple) {
+  public function __construct(ContentEntityStorageInterface $stateStorage, ConfigEntityStorageInterface $workflowStorage, Container $pimple) {
     $this->pimple = $pimple;
     $this->stateStorage = $stateStorage;
-    $this->transStorage = $transStorage;
+    $this->workflowStorage = $workflowStorage;
   }
 
   /**
@@ -84,19 +84,21 @@ class ContentModerationGraph extends ContentModerationReportBase implements Cont
     /** @var EntityTypeManagerInterface $etm */
     $etm = $container->get('entity_type.manager');
 
-    $stateStorage = $etm->getStorage('moderation_state');
-    $transStorage = $etm->getStorage('moderation_state_transition');
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $stateStorage */
+    $stateStorage = $etm->getStorage('content_moderation_state');
 
-    $logger = new Logger(basename(__FILE__, '.php'));
-    // Change the minimum logging level using the Logger:: constants.
-    $logger->pushHandler(new StreamHandler('php://stderr', Logger::INFO));
+    /** @var \Psr\Log\LoggerInterface $logger */
+    $logger = $container->get('logger.channel.qa');
+
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $stateStorage */
+    $workflowStorage = $etm->getStorage('workflow');
 
     $pimple = new Container([
       'logger' => $logger,
       'directed' => TRUE,
     ]);
 
-    return new static($stateStorage, $transStorage, $pimple);
+    return new static($stateStorage, $workflowStorage, $pimple);
   }
 
   public function report() {
