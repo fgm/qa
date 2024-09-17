@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\qa\I18n;
+namespace Drupal\qa\Plugin\Qa\Control\I18n;
 
 use Drupal\qa\Pass;
 use Drupal\qa\Plugin\Qa\Control\BaseControl;

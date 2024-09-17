@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\qa\Taxonomy;
+namespace Drupal\qa\Plugin\Qa\Control\Taxonomy;
 
 use Drupal\Core\PrivateKey;
 use Drupal\qa\Pass;

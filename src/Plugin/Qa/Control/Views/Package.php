@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\qa\Views;
+namespace Drupal\qa\Plugin\Qa\Control\Views;
 
 use Drupal\qa\BasePackage;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\qa\Views;
+namespace Drupal\qa\Plugin\Qa\Control\Views;
 
 use Drupal\qa\Pass;
 

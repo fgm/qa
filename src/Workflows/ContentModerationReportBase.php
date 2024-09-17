@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\magpjm\Workflows;
+namespace Drupal\qa\Workflows;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;

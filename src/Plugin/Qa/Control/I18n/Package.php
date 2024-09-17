@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\qa\I18n;
+namespace Drupal\qa\Plugin\Qa\Control\I18n;
 
 use Drupal\qa\BasePackage;
 

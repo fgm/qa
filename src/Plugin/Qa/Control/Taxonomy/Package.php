@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Drupal\qa\Taxonomy;
+namespace Drupal\qa\Plugin\Qa\Control\Taxonomy;
 
 use Drupal\qa\BasePackage;
 

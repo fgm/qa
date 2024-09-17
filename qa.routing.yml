@@ -9,7 +9,8 @@ qa.reports:
 qa.reports.checks:
   path: '/admin/reports/qa/list'
   defaults:
-    _controller: '\Drupal\qa\Controller\CheckListController::report'
+    _form: 'Drupal\qa\Form\ReportForm'
+    # _controller: '\Drupal\qa\Controller\CheckListController::report'
     _title: 'QA Checks'
   requirements:
     _permission: 'access site reports'
